@@ -24,7 +24,10 @@ function wp_splash_page_show_preview() {
 		'video_height'					=> ( $_REQUEST['video_height'] >= 1 && $_REQUEST['video_height'] <= 9999 && ctype_digit( $_REQUEST['video_height'] ) ) ? intval( $_REQUEST['video_height'] ): $options['video_height'],
 		'continue_button_text'			=> ( empty( $_REQUEST['continue_button_text'] ) ) ? strip_tags( 'Continue to Web Site' ) : strip_tags( stripslashes( $options['continue_button_text'] ) ),
 		'enable_age_confirmation'		=> ( $_REQUEST['enable_age_confirmation'] == 'true') ? 1 : 0,
-		'reject_text'					=> strip_tags( stripslashes( $_REQUEST['reject_text'] ) )
+		'reject_text'					=> strip_tags( stripslashes( $_REQUEST['reject_text'] ) ),
+		'enable_opt_in'					=> ( $_REQUEST['enable_opt_in'] == 'true') ? 1 : 0,
+		'opt_in_reject_text'			=> strip_tags( stripslashes( $_REQUEST['opt_in_reject_text'] ) ),
+		'opt_in_text'					=> balanceTags( stripslashes( $_REQUEST['opt_in_text'] ) ),
 	);
 	
 	update_option( 'wp_splash_page_options_preview', $preview );

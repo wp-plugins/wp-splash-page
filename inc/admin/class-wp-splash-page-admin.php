@@ -336,6 +336,45 @@ class WP_Splash_Page_Admin {
 		
 		add_settings_field( 'reject_text', __( 'Warning', 'wp-splash-page-domain' ), array( $this, 'display_setting' ), 'wp_splash_page_options.php', 'age_validatin_section', $field_args );
 		
+		//Add Opt-In settings section *****************************************************************************************************************
+		
+		add_settings_section( 'opt_in_section', __( 'Opt-In', 'wp-splash-page-domain' ), array( $this, 'display_section' ), 'wp_splash_page_options.php' );
+		
+		$field_args = array(
+			'type'      	=> 'checkbox',
+			'id'        	=> 'enable_opt_in',
+			'name'      	=> 'enable_opt_in',
+			'desc'      	=> __( 'Enable Opt-In', 'wp-splash-page-domain' ),
+			'checked'		=> '1'
+		);
+		
+		add_settings_field( 'enable_opt_in', __( 'Settings', 'wp-splash-page-domain' ), array( $this, 'display_setting' ), 'wp_splash_page_options.php', 'opt_in_section', $field_args );
+		
+		$field_args = array(
+			'type'      	=> 'text',
+			'id'        	=> 'opt_in_text',
+			'name'      	=> 'opt_in_text',
+			'desc'      	=> '',
+			'label_for' 	=> 'opt_in_text',
+			'class'     	=> 'regular-text',
+			'size'			=> 55,
+			'placeholder'	=>  __( 'Agreement/Disclaimer text', 'wp-splash-page-domain' )
+		);
+		
+		add_settings_field( 'opt_in_text', __( 'Text', 'wp-splash-page-domain' ), array( $this, 'display_setting' ), 'wp_splash_page_options.php', 'opt_in_section', $field_args );
+		
+		$field_args = array(
+			'type'      	=> 'text',
+			'id'        	=> 'opt_in_reject_text',
+			'name'      	=> 'opt_in_reject_text',
+			'desc'      	=> '',
+			'label_for' 	=> 'opt_in_reject_text',
+			'class'     	=> 'regular-text',
+			'size'			=> 55,
+			'placeholder'	=> __( 'Text displayed when a user doesn\'t accept the terms or conditions', 'wp-splash-page-domain' )
+		);
+		
+		add_settings_field( 'opt_in_reject_text', __( 'Warning', 'wp-splash-page-domain' ), array( $this, 'display_setting' ), 'wp_splash_page_options.php', 'opt_in_section', $field_args );
 	}
 	
 	public function do_page() {
@@ -546,10 +585,13 @@ class WP_Splash_Page_Admin {
 		$input['show_on_mobile']				= ( 1 == $input['show_on_mobile'] ) ? 1 : 0 ;
 		$input['enable_age_confirmation']		= ( 1 == $input['enable_age_confirmation'] ) ? 1 : 0;
 		$input['video_autoplay']				= ( 1 == $input['video_autoplay'] ) ? 1 : 0;
+		$input['enable_opt_in']					= ( 1 == $input['enable_opt_in'] ) ? 1 : 0;
 		$input['reject_text']					= strip_tags( $input['reject_text'] );
+		$input['opt_in_reject_text']			= strip_tags( $input['opt_in_reject_text'] );
 		$input['template']						= strip_tags( $input['template'] );
 		$input['title']							= balanceTags( $input['title'] );
 		$input['text']							= balanceTags( $input['text'] );
+		$input['opt_in_text']					= balanceTags( $input['opt_in_text'] );
 		$input['page_title']					= ( !empty ( $input['page_title'] ) ) ? strip_tags( $input['page_title'] ) : get_bloginfo('name');
 		$input['continue_button_text']			= ( !empty( $input['continue_button_text'] ) ) ? strip_tags( $input['continue_button_text'] ) : strip_tags( 'Continue to Web Site' );
 		$input['background_color']				= ( !empty( $input['background_color'] ) && preg_match( '|^([A-Fa-f0-9]{3}){1,2}$|', str_replace( '#', '', $input['background_color'] ) ) ) ? str_replace( '#', '', $input['background_color'] ): $this->options['background_color'];
@@ -576,8 +618,28 @@ class WP_Splash_Page_Admin {
 		
 	}
 	
-	private function upgrade() {
+	function upgrade() {
+	
+		$config				= get_option( 'wp_splash_page_config' );
+		$current_version	= $config['version'];
 
+		if ( version_compare( $current_version, WP_SPLASH_PAGE_VERSION, '==' ) )
+			return false;
+			
+		if ( version_compare( $current_version, '1.1', '<' ) ) {
+			
+			$options	= get_option( 'wp_splash_page_options' );
+			$options['enable_opt_in']		= false;
+			$options['opt_in_text']			= strip_tags( __( 'I agree with the terms and conditions.', 'wp-splash-page-domain' ) );
+			$options['opt_in_reject_text']	= strip_tags( __( 'You aren\'t agree with conditions.', 'wp-splash-page-domain' ) );
+
+			update_option( 'wp_splash_page_options', $options );
+		
+		} // END < 1.1
+		
+		$config['version']	= WP_SPLASH_PAGE_VERSION;
+		update_option( 'wp_splash_page_config', $config );
+		
 	}
 
 }

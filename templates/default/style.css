@@ -111,6 +111,13 @@ h3 {
 	width: 90px;
 }
 
+#wpsp-opt-in{
+
+	display: block;
+	margin: 10px 0;
+
+}
+
 #wpsp-continue {
 	display: inline-block;
 	cursor: pointer;

@@ -9,13 +9,15 @@ class WP_Splash_Page {
 	private $cookie_expiration;
 	private $detect;
 	private $minor;
+	private $opt_in_rejected;
 	private $current_url;
 	private $template_url;
 	
 	public function __construct() {
 	
-		$this->minor	= false;
-		
+		$this->minor			= false;
+		$this->opt_in_rejected	= false;
+			
 		if ( isset( $_GET['mode'] ) && $_GET['mode'] == 'wpsp_preview' ) {
 			
 			$this->settings	= get_option( 'wp_splash_page_options_preview' );
@@ -29,7 +31,7 @@ class WP_Splash_Page {
 			$this->cookie_expiration	= ( $this->settings['expiration_time'] != 0 ) ? time() + ( $this->settings['expiration_time'] * 24 * 3600 ) : 0;
 			$this->detect				= new Mobile_Detect();
 			$this->state				= ( $this->test() ) ? 'active' : false;
-			
+
 		}
 		
 	}
@@ -40,10 +42,9 @@ class WP_Splash_Page {
 		$this->current_url	= esc_url( $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 		$this->template_url	= esc_url( WP_SPLASH_PAGE_ROOT_URL . 'templates/' . $this->settings['template'] . '/' );
 		
-		if ( $this->state === 'active' && ( ! $this->settings['enable_age_confirmation'] ) ){
+		if ( $this->state === 'active' && ( ! $this->settings['enable_age_confirmation'] ) && ( ! $this->settings['enable_opt_in'] ) ){
 		
 			setCookie( $this->cookie_name, time(), $this->cookie_expiration );
-			
 			$this->save_ip();
 				
 		}
@@ -60,7 +61,7 @@ class WP_Splash_Page {
 	}
 	
 	private function test() {
-
+		
 		if ( ! $this->settings['enable_splash_page'] )
 			return false;
 		
@@ -72,30 +73,71 @@ class WP_Splash_Page {
 			return false;
 		}
 		
-		if ( $this->check_ip() )
+		if ( $this->check_ip() ){
+			setCookie( $this->cookie_name, time(), $this->cookie_expiration );
+			return false;			
+		}
+		
+		if ( ! $this->form_validation() )
 			return false;
-
+			
 		if ( ! $this->settings['show_on_mobile'] && ( $this->detect->isMobile() || $this->detect->isTablet() ) )
 			return false;
 			
 		if ( $this->is_bot() )
 			return false;
 		
-		if ( $this->settings['enable_age_confirmation'] && ( isset( $_POST['wpsp-year'] ) && ctype_digit( $_POST['wpsp-year'] ) ) && ( isset( $_POST['wpsp-month'] ) && ctype_digit( $_POST['wpsp-month'] ) ) && ( isset( $_POST['wpsp-day'] ) && ctype_digit( $_POST['wpsp-day'] ) ) && ( isset( $_POST['age-nonce'] ) && wp_verify_nonce( $_POST['age-nonce'], WP_SPLASH_PAGE_AGE_FORM_NONCE ) ) ) {		
+		if ( ! file_exists( WP_SPLASH_PAGE_ROOT_PATH . 'templates/' . $this->settings['template'] . '/splash-page.php' ) )
+			return false;		
 			
-			if ( $this->check_age( $_POST['wpsp-day'], $_POST['wpsp-month'], $_POST['wpsp-year'] ) ) {
-				setCookie( $this->cookie_name, time(), $this->cookie_expiration );
-				$this->save_ip();
-				return false;
+		return true;
+		
+	}
+	
+	private function form_validation() {
+	
+		$must_save	= false;
+		$error		= false;
+		
+		if ( $this->settings['enable_age_confirmation']  && isset( $_POST['wpsp-nonce'] ) && wp_verify_nonce( $_POST['wpsp-nonce'], WP_SPLASH_PAGE_FORM_NONCE ) ) {		
+			
+			if (  isset( $_POST['wpsp-year'] ) && ctype_digit( $_POST['wpsp-year'] ) && isset( $_POST['wpsp-month'] ) && ctype_digit( $_POST['wpsp-month'] ) && isset( $_POST['wpsp-day'] ) && ctype_digit( $_POST['wpsp-day'] ) && $this->check_age( $_POST['wpsp-day'], $_POST['wpsp-month'], $_POST['wpsp-year'] ) ) {
+				
+				$must_save	= true;
+				
 			} else {
+			
 				$this->minor	= true;
+				$error			= true;
+			
 			}
 				
 		}
+
+		if ( $this->settings['enable_opt_in'] && isset( $_POST['wpsp-nonce'] ) && wp_verify_nonce( $_POST['wpsp-nonce'], WP_SPLASH_PAGE_FORM_NONCE ) ) {
+
+			if ( isset( $_POST['opt-in-checkbox'] ) ) {
+
+				$must_save	= true;			
+				
+			} else {
+			
+				$this->opt_in_rejected	= true;
+				$error					= true;
+				
+			}
+			
+		}
+			
+		if ( ! $error && $must_save ) {
 		
-		if ( ! file_exists( WP_SPLASH_PAGE_ROOT_PATH . 'templates/' . $this->settings['template'] . '/splash-page.php' ) )
+			setCookie( $this->cookie_name, time(), $this->cookie_expiration );
+			$this->save_ip();
+			
 			return false;
 			
+		}
+		
 		return true;
 		
 	}
@@ -187,7 +229,8 @@ class WP_Splash_Page {
 		if( ! empty( $ip ) ) {
 			$query	= 'DELETE FROM ' . WP_SPLASH_PAGE_TABLE_IPS . ' WHERE ip = %s';
 			$args	= $ip;
-		} else {
+		
+		}else{
 			$query	= 'DELETE FROM ' . WP_SPLASH_PAGE_TABLE_IPS . ' WHERE splash_date < %s';
 			$args	=  date( 'Y-m-d H:i:s', ( current_time('timestamp') - ( 24 * 3600 ) ) );
 		}

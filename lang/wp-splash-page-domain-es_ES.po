@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP Splash Page 1.0\n"
-"POT-Creation-Date: 2013-05-06 10:44+0100\n"
-"PO-Revision-Date: 2013-05-06 10:44+0100\n"
+"POT-Creation-Date: 2013-06-13 11:12+0100\n"
+"PO-Revision-Date: 2013-06-13 11:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: Optimal Devs <info@optimaldevs.com>\n"
 "Language: English\n"
@@ -30,6 +30,18 @@ msgstr "Aquí va el Título"
 #: inc/activation.php:33
 msgid "Continue to Web Site"
 msgstr "Continuar al Sitio Web"
+
+#: inc/activation.php:45 inc/admin/class-wp-splash-page-admin.php:633
+msgid "I agree with the terms and conditions."
+msgstr "Acepto los terminos y condiciones."
+
+#: inc/activation.php:46
+msgid "You aren't agree with conditions"
+msgstr "No has aceptado nuestras condiciones"
+
+#: inc/admin/class-wp-splash-page-admin.php:38
+msgid "General Settings"
+msgstr "Ajustes Generales"
 
 #: inc/admin/class-wp-splash-page-admin.php:44
 msgid "Enable Splash Page"
@@ -86,6 +98,7 @@ msgstr "Color del título"
 
 #: inc/admin/class-wp-splash-page-admin.php:146
 #: inc/admin/class-wp-splash-page-admin.php:149
+#: inc/admin/class-wp-splash-page-admin.php:364
 msgid "Text"
 msgstr "Texto"
 
@@ -183,7 +196,8 @@ msgid "Enable Age Confirmation"
 msgstr "Hablitar Confirmación de Edad"
 
 #: inc/admin/class-wp-splash-page-admin.php:309
-#: inc/admin/class-wp-splash-page-admin.php:537
+#: inc/admin/class-wp-splash-page-admin.php:351
+#: inc/admin/class-wp-splash-page-admin.php:576
 msgid "Settings"
 msgstr "Ajustes"
 
@@ -200,34 +214,51 @@ msgid "Text displayed when a user is rejected"
 msgstr "Texto mostrado cuando un usuario es rechazado"
 
 #: inc/admin/class-wp-splash-page-admin.php:337
+#: inc/admin/class-wp-splash-page-admin.php:377
 msgid "Warning"
 msgstr "Advertencia"
 
-#: inc/admin/class-wp-splash-page-admin.php:358
+#: inc/admin/class-wp-splash-page-admin.php:341
+msgid "Opt-In"
+msgstr ""
+
+#: inc/admin/class-wp-splash-page-admin.php:347
+msgid "Enable Opt-In"
+msgstr "Activar Opt-in"
+
+#: inc/admin/class-wp-splash-page-admin.php:361
+msgid "Agreement/Disclaimer text"
+msgstr "Texto de Acuerdo/Renuncia"
+
+#: inc/admin/class-wp-splash-page-admin.php:374
+msgid "Text displayed when a user doesn't accept the terms or conditions"
+msgstr "Texto mostrado cuando un usuario no acepta los terminos o condiciones"
+
+#: inc/admin/class-wp-splash-page-admin.php:397
 msgid "Save Changes"
 msgstr ""
 
-#: inc/admin/class-wp-splash-page-admin.php:361
+#: inc/admin/class-wp-splash-page-admin.php:400
 msgid "See a preview"
 msgstr "Vista Previa"
 
-#: inc/admin/class-wp-splash-page-admin.php:361
+#: inc/admin/class-wp-splash-page-admin.php:400
 msgid "Preview"
 msgstr "Vista Previa"
 
-#: inc/admin/class-wp-splash-page-admin.php:362
+#: inc/admin/class-wp-splash-page-admin.php:401
 msgid "Read the documentation."
 msgstr "Leer la documentación."
 
-#: inc/admin/class-wp-splash-page-admin.php:362
+#: inc/admin/class-wp-splash-page-admin.php:401
 msgid "Documentation"
 msgstr "Documentación"
 
-#: inc/admin/class-wp-splash-page-admin.php:516
+#: inc/admin/class-wp-splash-page-admin.php:555
 msgid "Set as Background"
 msgstr "Insertar como Fondo"
 
-#: inc/admin/class-wp-splash-page-admin.php:526
+#: inc/admin/class-wp-splash-page-admin.php:565
 #, php-format
 msgid ""
 "Please <a href=\"%s\">update your settings</a> to complete installation of "
@@ -236,14 +267,15 @@ msgstr ""
 "Porfavor <a href=\"%s\">actualiza las opciones</a> para completar la "
 "instalación de WP Splash Page."
 
+#: inc/admin/class-wp-splash-page-admin.php:634
+msgid "You aren't agree with conditions."
+msgstr "No estas de acuerdo con las condiciones"
+
 #~ msgid "Background color"
 #~ msgstr "Color de Fondo"
 
 #~ msgid "Background Image"
 #~ msgstr "Imágen de Fondo"
-
-#~ msgid "Video Settings"
-#~ msgstr "Ajustes de Vídeo"
 
 #~ msgid "Settings Video"
 #~ msgstr "Ajustes de Vídeo"

@@ -40,7 +40,10 @@ function wp_splash_page_installation() {
 		'youtube_id'				=> '',
 		'video_autoplay'			=> TRUE,
 		'video_width'				=> '640',
-		'video_height'				=> '360'
+		'video_height'				=> '360',
+		'enable_opt_in'				=> FALSE,
+		'opt_in_text'				=> strip_tags( __( 'I agree with the terms and conditions.', 'wp-splash-page-domain' ) ),
+		'opt_in_reject_text'		=> strip_tags( __( 'You aren\'t agree with conditions', 'wp-splash-page-domain' ) )
 
 	);
 	$old_options	= get_option( 'wp_splash_page_options' );

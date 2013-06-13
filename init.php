@@ -3,7 +3,7 @@
 Plugin Name: WP Splash Page
 Plugin URI: http://optimaldevs.com/en
 Description: A splash page for WordPress, simple and easy to use.
-Version: 1.0
+Version: 1.1
 Author: OptimalDevs
 Author URI: http://optimaldevs.com/
 */

@@ -1,13 +1,11 @@
 /*!
- * Documenter 1.6
+ * Documenter 2.0
  * http://rxa.li/documenter
  *
  * Copyright 2011, Xaver Birsak
  * http://revaxarts.com
  *
  */
-//if Cufon replace headings
-if(typeof Cufon == 'function') Cufon.replace('h1, h2, h3, h4, h5, h6');
  
 $(document).ready(function() {
 	var timeout,
@@ -155,5 +153,7 @@ $(document).ready(function() {
 		}	
 	}
 	
+    // make code pretty
+    window.prettyPrint && prettyPrint();
 	
 });

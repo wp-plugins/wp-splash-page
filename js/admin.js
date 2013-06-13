@@ -52,6 +52,9 @@ jQuery( function() {
 		data += '&video_height=' + jQuery( '#video_height' ).val();
 		data += '&enable_age_confirmation=' + jQuery( '#enable_age_confirmation' ).is( ':checked' );
 		data += '&reject_text=' + jQuery( '#reject_text' ).val();
+		data += '&enable_opt_in=' + jQuery( '#enable_opt_in' ).is( ':checked' );
+		data += '&opt_in_text=' + jQuery( '#opt_in_text' ).val();
+		data += '&opt_in_reject_text=' + jQuery( '#opt_in_reject_text' ).val();
 		data += '&nonce=' + wp_splash_page_data.previewSecurity;
 		
 		jQuery.ajax({
