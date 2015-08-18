@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: WP Splash Page
-Plugin URI: http://optimaldevs.com/en
+Plugin URI: https://wordpress.org/plugins/wp-splash-page/
 Description: A splash page for WordPress, simple and easy to use.
-Version: 1.1
+Version: 1.2
 Author: OptimalDevs
-Author URI: http://optimaldevs.com/
+Author URI: https://profiles.wordpress.org/optimaldevs/
 */
 
 require_once( 'wpsp-config.php' );

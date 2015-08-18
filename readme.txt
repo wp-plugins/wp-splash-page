@@ -1,10 +1,9 @@
 ﻿=== Plugin Name ===
 Contributors: OptimalDevs, Alejandro Galvez, Andy Hernandez
-Donate link: http://optimaldevs.com/
 Tags: splash page, splash screen, landing page, cross browser, indexing, customizable, age verification, mobile detection, video, welcome, message, templates, opt-in, agreement, disclaimer, background video
 Requires at least: 3.0
-Tested up to: 3.5.1
-Stable tag: 1.1
+Tested up to: 4.3
+Stable tag: 1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -33,8 +32,6 @@ Features:
 * You can enable the plugin for all the web or only for the front page
 * Live preview before save changes
 
-[Try Demo](http://optimaldevs.com/demo/ "Try WP Splash Page demo.")
-
 == Installation ==
 
 1. Upload wp-splash-page folder to wp-content/plugins.
@@ -51,9 +48,14 @@ Features:
 
 = Need help? =
 
-See the plugin [documentation](http://optimaldevs.com/documentation/wp-splash-page-1.1/index.html "See the plugin documentation.")
+See the included documentation.
 
 == Changelog ==
+
+= 1.2 =
+* Tested with WordPres 4.3.
+* Update "MobileDetect" library.
+* Fixed a few minor bugs.
 
 = 1.1 =
 * **WARNING!**: If you have custom templates, please make a backup before update the plugin.
